@@ -1,5 +1,5 @@
 {
-  "name": "GARAGEANDOFront",
+  "name": "garageandofront",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -7,9 +7,11 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "react-devtool": "react-devtools"
   },
   "dependencies": {
+    "axios": "^0.19.0",
     "prettier-eslint": "^9.0.1",
     "prettier-stylelint": "^0.4.2",
     "prettier-tslint": "^0.4.2",
@@ -39,6 +41,7 @@
     "eslint-plugin-react-hooks": "^1.7.0",
     "jest": "^24.9.0",
     "metro-react-native-babel-preset": "^0.57.0",
+    "react-devtools": "3",
     "react-test-renderer": "16.9.0"
   },
   "jest": {

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {View, Text, StyleSheet, Platform, UserInput} from 'react-native';
+import {View, StyleSheet, Platform, UserInput} from 'react-native';
 
 const branco = '#FFF';
 

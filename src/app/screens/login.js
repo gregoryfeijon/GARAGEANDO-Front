@@ -5,66 +5,71 @@ import {
   SafeAreaView,
   View,
   TextInput,
-  Button,
-  UserInput,
   Text,
-  Platform,
+  Image,
+  TouchableOpacity,
+  TouchableHighlight,
 } from 'react-native';
 
 import colors from '~/styles/colors';
-import {black} from 'ansi-colors';
 
-const branco = '#FFF';
-
-export default class ScreenLogin extends Component {
-  static navigationOptions = {
-    title: 'GARAGEANDO',
-    headerStyle: {
-      backgroundColor: colors.backgroundWhite,
+export default class Login extends Component {
+  state = {
+    usuarioDTO: {
+      id: '',
+      login: '',
+      senha: '',
+      email: '',
+      usuario: null,
+      usuarios: null,
     },
-    headerTintColor: colors.headerColor,
-    headerTitleStyle: {
-      fontWeight: 'bold',
-      textAlign: 'center',
-    },
+    token: '',
   };
 
-  irParaCriarConta = () => {
-    const {navigation} = this.props;
-    navigation.navigate('CadastroUsuario');
+  handleLoginClick = () => {};
+
+  handleCriarContaClick = () => {
+    this.props.navigation.navigate('CadastroUsuario');
   };
+
+  componentWillUnmount() {}
 
   render() {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.menu}>
-          <View style={styles.login}>
-            <TextInput
-              placeholder="Username"
-              autoCapitalize={'none'}
-              returnKeyType={'done'}
-              autoCorrect={false}
-            />
-            <TextInput
-              placeholder="Password"
-              autoCapitalize={'none'}
-              returnKeyType={'done'}
-              autoCorrect={false}
-            />
-          </View>
-        </View>
-        <View style={styles.opcoes}>
-          <Button
-            color={black}
-            title={'Create Account'}
-            style={styles.text}
-            onPress={() => this.irParaCriarConta()}
+          <Image
+            source={require('~/assets/iconeGarageando.png')}
+            resizeMode="contain"
+            style={styles.logo}
           />
-          <Button
-            color={black}
-            title={'Forgot Password?'}
-            style={styles.text}
+
+          <TextInput
+            placeholder="Usuário"
+            autoCapitalize="none"
+            autoCorrect={false}
+            style={styles.input}
           />
+
+          <TextInput
+            placeholder="Senha"
+            autoCapitalize="none"
+            autoCorrect={false}
+            style={styles.input}
+            secureTextEntry={true}
+          />
+
+          <TouchableOpacity
+            onPress={() => this.handleLoginClick()}
+            style={styles.botao}>
+            <Text style={styles.botaoText}>Login</Text>
+          </TouchableOpacity>
+
+          <TouchableHighlight
+            style={styles.signUpStyle}
+            onPress={() => this.handleCriarContaClick()}>
+            <Text style={styles.signUpText}>Criar conta</Text>
+          </TouchableHighlight>
         </View>
       </SafeAreaView>
     );
@@ -75,38 +80,66 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.headerColor,
-    alignContent: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
   },
+
   menu: {
     backgroundColor: 'white',
     borderRadius: 5,
     padding: 20,
     marginTop: 20,
     marginHorizontal: 20,
-  },
-
-  login: {
     justifyContent: 'center',
-    alignItems: 'flex-start',
-    ...Platform.select({
-      ios: {
-        height: 76,
-        paddingTop: 20,
-      },
-      android: {
-        height: 56,
-        paddingTop: 0,
-      },
-    }),
+    alignItems: 'center',
   },
 
-  opcoes: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+  logo: {
+    width: 150,
+    height: 150,
+    borderRadius: 50,
   },
 
-  text: {
-    color: 'black',
+  input: {
+    marginTop: 10,
+    padding: 10,
+    width: 300,
+    backgroundColor: '#FFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+    borderRadius: 3,
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 20,
+    color: '#000',
+  },
+
+  botao: {
+    width: 300,
+    height: 42,
+    backgroundColor: '#000',
+    marginTop: 10,
+    borderRadius: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  botaoText: {
+    fontSize: 16,
+    color: '#FFF',
+    fontWeight: 'bold',
+  },
+
+  signUpStyle: {
+    padding: 10,
+    marginTop: 20,
+  },
+
+  signUpText: {
+    color: '#999',
+    fontWeight: 'bold',
+    fontSize: 16,
+    textAlign: 'center',
   },
 });
