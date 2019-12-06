@@ -13,7 +13,7 @@ import {
 
 import colors from '~/styles/colors';
 
-import api from '~/app/services';
+import api from '~/app/services/api';
 
 import '~/config/DevToolsConfig';
 
@@ -143,6 +143,7 @@ export default class CadastroUsuario extends Component {
             autoCapitalize={'none'}
             returnKeyType={'done'}
             autoCorrect={false}
+            secureTextEntry={true}
             value={this.state.usuario.senha}
             onChangeText={senha => this.handleChangeFor('senha', senha)}
             style={styles.inputs}
@@ -151,7 +152,7 @@ export default class CadastroUsuario extends Component {
         <View style={styles.opcoes}>
           <TouchableOpacity
             style={styles.botao}
-            onPress={this.handleConfirmarContaClick()}>
+            onPress={() => this.handleConfirmarContaClick()}>
             <Text style={styles.botaoText}>Confirmar</Text>
           </TouchableOpacity>
         </View>
