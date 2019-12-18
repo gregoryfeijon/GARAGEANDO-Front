@@ -1,4 +1,4 @@
-import colors from '~/styles/colors';
+import {colors} from '~/styles';
 
 const myHeader = navigation => {
   return {

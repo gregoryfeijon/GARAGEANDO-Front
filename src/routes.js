@@ -2,9 +2,9 @@ import {createAppContainer} from 'react-navigation';
 
 import {createStackNavigator} from 'react-navigation-stack';
 
-import ScreenLogin from './app/screens/login';
-import ScreenCadastroUsuario from './app/screens/cadastros/cadastroUsuario';
-import myHeader from './app/components/header';
+import ScreenLogin from '~/app/screens/Login';
+import ScreenCadastroUsuario from '~/app/screens/Cadastros/CadastroUsuario';
+import myHeader from '~/app/components/header';
 
 const stackNavigator = createStackNavigator(
   {
