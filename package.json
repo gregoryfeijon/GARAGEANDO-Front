@@ -11,6 +11,8 @@
     "react-devtool": "react-devtools"
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.7.0",
+    "@react-native-community/datetimepicker": "^2.1.0",
     "axios": "^0.19.0",
     "prettier-eslint": "^9.0.1",
     "prettier-stylelint": "^0.4.2",

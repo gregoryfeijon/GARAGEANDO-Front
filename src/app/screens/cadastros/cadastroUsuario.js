@@ -11,11 +11,14 @@ import {
   ScrollView,
 } from 'react-native';
 
+import DateTimePicker from '@react-native-community/datetimepicker';
+
 import colors from '~/styles/colors';
 
 import api from '~/app/services/api';
 
 import '~/config/DevToolsConfig';
+import '~/config/ReactotronConfig';
 
 export default class CadastroUsuario extends Component {
   state = {
@@ -29,42 +32,119 @@ export default class CadastroUsuario extends Component {
       login: '',
       senha: '',
     },
+    showDatePicker: null,
   };
+
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     usuario: {
+  //       nome: null,
+  //       cpf: null,
+  //       dataNasc: null,
+  //       email: null,
+  //       celular: null,
+  //       telefone: null,
+  //       login: null,
+  //       senha: null,
+  //     },
+  //   };
+  // }
 
   constructor(props) {
     super(props);
     this.state = {
       usuario: {
-        nome: null,
-        cpf: null,
-        dataNasc: null,
-        email: null,
-        celular: null,
-        telefone: null,
+        pessoa: {
+          nome: null,
+          cpf: null,
+          dataNasc: null,
+          email: null,
+          celular: null,
+          telefone: null,
+        },
         login: null,
         senha: null,
       },
+      showDatePicker: false,
     };
   }
 
-  handleChangeFor = (propertyName, propertyValue) => {
-    this.setState(state => {
-      return {
-        ...state,
-        usuario: {
-          ...state.usuario,
-          [propertyName]: propertyValue,
-        },
-      };
-    });
+  showDateTimePicker = () => {
+    this.setState({showDatePicker: true});
+  };
+
+  hideDateTimePicker = () => {
+    this.setState({showDatePicker: false});
+  };
+
+  // handleChangeFor = (propertyName, propertyValue) => {
+  //   this.setState(state => {
+  //     return {
+  //       ...state,
+  //       usuario: {
+  //         ...state.usuario,
+  //         [propertyName]: propertyValue,
+  //       },
+  //     };
+  //   });
+  // };
+
+  handleChangeFor = (propertyName, propertyValue, isPessoa) => {
+    if (isPessoa) {
+      this.setState(state => {
+        return {
+          ...state,
+          usuario: {
+            ...state.usuario,
+            pessoa: {
+              ...state.usuario.pessoa,
+              [propertyName]: propertyValue,
+            },
+          },
+        };
+      });
+    } else {
+      this.setState(state => {
+        return {
+          ...state,
+          usuario: {
+            ...state.usuario,
+            [propertyName]: propertyValue,
+          },
+        };
+      });
+    }
   };
 
   handleConfirmarContaClick = async () => {
-    const response = await api.post('/api/usuario', this.state);
-    console.log(response);
+    const response = await api.post(
+      'api/usuario/registrar',
+      this.state.usuario,
+    );
+    console.tron.log(response);
   };
 
   render() {
+    var showDatePicker = this.state.showDatePicker ? (
+      <DateTimePicker
+        isVisible={this.state.showDatePicker}
+        mode={'date'}
+        display={'calendar'}
+        value={
+          this.state.usuario.pessoa.dataNasc === null
+            ? new Date()
+            : new Date(this.state.usuario.pessoa.dataNasc)
+        }
+        onConfirm={dataNasc => {
+          this.handleChangeFor('dataNasc', dataNasc, true);
+          this.hideDateTimePicker();
+        }}
+        onCancel={this.hideDateTimePicker()}
+      />
+    ) : (
+      <View />
+    );
     return (
       <SafeAreaView style={styles.container}>
         <Text style={styles.titulo}>CADASTRO DE USUÁRIO</Text>
@@ -74,8 +154,8 @@ export default class CadastroUsuario extends Component {
             autoCapitalize={'words'}
             returnKeyType={'done'}
             autoCorrect={false}
-            value={this.state.usuario.nome}
-            onChangeText={nome => this.handleChangeFor('nome', nome)}
+            value={this.state.usuario.pessoa.nome}
+            onChangeText={nome => this.handleChangeFor('nome', nome, true)}
             style={styles.inputs}
           />
           <TextInput
@@ -83,28 +163,37 @@ export default class CadastroUsuario extends Component {
             autoCapitalize={'none'}
             returnKeyType={'done'}
             autoCorrect={false}
-            value={this.state.usuario.cpf}
-            onChangeText={cpf => this.handleChangeFor('cpf', cpf)}
+            value={this.state.usuario.pessoa.cpf}
+            onChangeText={cpf => this.handleChangeFor('cpf', cpf, true)}
             style={styles.inputs}
           />
-          <TextInput
+          {/* <TextInput
             placeholder="Data Nasc."
             autoCapitalize={'none'}
             returnKeyType={'done'}
             autoCorrect={false}
             value={this.state.usuario.dataNasc}
             onChangeText={dataNasc =>
-              this.handleChangeFor('dataNasc', dataNasc)
+              this.handleChangeFor('dataNasc', dataNasc, true)
             }
             style={styles.inputs}
-          />
+          /> */}
+          <TouchableOpacity onPress={() => this.showDateTimePicker()}>
+            <TextInput
+              editable={false}
+              placeholder="Data Nasc."
+              value={this.state.usuario.dataNasc}
+              style={styles.inputs}
+            />
+          </TouchableOpacity>
+          {showDatePicker}
           <TextInput
             placeholder="E-Mail"
             autoCapitalize={'none'}
             returnKeyType={'done'}
             autoCorrect={false}
-            value={this.state.usuario.email}
-            onChangeText={email => this.handleChangeFor('email', email)}
+            value={this.state.usuario.pessoa.email}
+            onChangeText={email => this.handleChangeFor('email', email, true)}
             style={styles.inputs}
           />
           <TextInput
@@ -112,8 +201,10 @@ export default class CadastroUsuario extends Component {
             autoCapitalize={'none'}
             returnKeyType={'done'}
             autoCorrect={false}
-            value={this.state.usuario.celular}
-            onChangeText={celular => this.handleChangeFor('celular', celular)}
+            value={this.state.usuario.pessoa.celular}
+            onChangeText={celular =>
+              this.handleChangeFor('celular', celular, true)
+            }
             style={styles.inputs}
             maxLength={11}
           />
@@ -122,9 +213,9 @@ export default class CadastroUsuario extends Component {
             autoCapitalize={'none'}
             returnKeyType={'done'}
             autoCorrect={false}
-            value={this.state.usuario.telefone}
+            value={this.state.usuario.pessoa.telefone}
             onChangeText={telefone =>
-              this.handleChangeFor('telefone', telefone)
+              this.handleChangeFor('telefone', telefone, true)
             }
             style={styles.inputs}
             maxLength={10}
@@ -135,7 +226,7 @@ export default class CadastroUsuario extends Component {
             returnKeyType={'done'}
             autoCorrect={false}
             value={this.state.usuario.login}
-            onChangeText={login => this.handleChangeFor('login', login)}
+            onChangeText={login => this.handleChangeFor('login', login, false)}
             style={styles.inputs}
           />
           <TextInput
@@ -145,7 +236,7 @@ export default class CadastroUsuario extends Component {
             autoCorrect={false}
             secureTextEntry={true}
             value={this.state.usuario.senha}
-            onChangeText={senha => this.handleChangeFor('senha', senha)}
+            onChangeText={senha => this.handleChangeFor('senha', senha, false)}
             style={styles.inputs}
           />
         </ScrollView>
@@ -226,5 +317,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
     textAlign: 'center',
+  },
+
+  date: {
+    width: 200,
   },
 });
