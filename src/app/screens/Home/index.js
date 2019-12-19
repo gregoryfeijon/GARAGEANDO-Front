@@ -28,6 +28,21 @@ class Home extends Component {
     carregaUsuarioRequest();
   }
 
+  navigateToCriaLocal = () => {
+    this.hideMenu();
+    this.props.navigation.navigate('CadastroLocal');
+  };
+
+  navigateToLocaisFavoritos = () => {
+    this.hideMenu();
+    this.props.navigation.navigate('LocaisFavoritos');
+  };
+
+  navigateToLocaisProprios = () => {
+    this.hideMenu();
+    this.props.navigation.navigate('LocaisProprios');
+  };
+
   render() {
     const {usuario} = this.props;
     console.tron.log(usuario);
@@ -40,10 +55,16 @@ class Home extends Component {
         <Menu
           ref={this.setMenuRef}
           button={<TextTeste onPress={this.showMenu}>Show menu</TextTeste>}>
-          <MenuItem onPress={this.hideMenu}>Criar Local</MenuItem>
+          <MenuItem onPress={() => this.navigateToCriaLocal()}>
+            Criar Local
+          </MenuItem>
           <MenuDivider />
-          <MenuItem onPress={this.hideMenu}>Locais Proprios</MenuItem>
-          <MenuItem onPress={this.hideMenu}>Locais Favoritos</MenuItem>
+          <MenuItem onPress={() => this.navigateToLocaisFavoritos()}>
+            Locais Proprios
+          </MenuItem>
+          <MenuItem onPress={() => this.navigateToLocaisProprios()}>
+            Locais Favoritos
+          </MenuItem>
         </Menu>
       </Container>
     );
