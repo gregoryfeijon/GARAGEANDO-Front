@@ -65,3 +65,18 @@ export const SignUpText = styled.Text`
   font-size: 16;
   text-align: center;
 `;
+
+export const Error = styled.Text`
+  color: ${colors.danger};
+  margin-top: ${metrics.baseMargin + 10}px;
+  margin-bottom: ${metrics.baseMargin + 10}px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+`;
+
+export const Loading = styled.ActivityIndicator.attrs({
+  size: 'small',
+  color: colors.white,
+})``;
+

@@ -80,11 +80,6 @@ class CadastroUsuario extends Component {
   };
 
   handleConfirmarContaClick = () => {
-    // const response = await api.post(
-    //   'api/usuario/registrar',
-    //   this.state.usuario,
-    // );
-    // console.tron.log(response);
     const {usuario} = this.state;
     const {cadastroRequest} = this.props;
 
