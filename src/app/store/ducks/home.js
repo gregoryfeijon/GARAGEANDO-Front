@@ -2,20 +2,18 @@
  * Action Types
  */
 export const Types = {
-  REQUEST: 'LOGIN_REQUEST',
-  SUCCESS: 'LOGIN_SUCCESS',
-  FAILURE: 'LOGIN_FAILURE',
-  RESET: 'LOGIN_RESET',
+  REQUEST: 'CARREGA_USUARIO_REQUEST',
+  SUCCESS: 'CARREGA_USUARIO_SUCCESS',
+  FAILURE: 'CARREGA_USUARIO_FAILURE',
 };
 
 /**
  * Reducer
  */
 const INITIAL_STATE = {
-  usuarioDTO: null,
+  usuario: null,
   loading: false,
   error: false,
-  token: null,
 };
 
 export default function login(state = INITIAL_STATE, action) {
@@ -27,13 +25,10 @@ export default function login(state = INITIAL_STATE, action) {
         ...state,
         loading: false,
         error: false,
-        token: action.payload.token,
-        usuarioDTO: {...state.usuarioDTO, login: action.payload.login},
+        usuario: action.payload,
       };
     case Types.FAILURE:
       return {...state, loading: false, error: true};
-    case Types.RESET:
-      return {...state, loading: false, error: false};
     default:
       return state;
   }
@@ -43,21 +38,16 @@ export default function login(state = INITIAL_STATE, action) {
  * Action Creators
  */
 export const Creators = {
-  loginRequest: usuarioDTO => ({
+  carregaUsuarioRequest: () => ({
     type: Types.REQUEST,
-    payload: {usuarioDTO},
   }),
 
-  loginSuccess: (login, token) => ({
+  carregaUsuarioSuccess: usuario => ({
     type: Types.SUCCESS,
-    payload: {login, token},
+    payload: {usuario},
   }),
 
-  loginFailure: () => ({
+  carregaUsuarioFailure: () => ({
     type: Types.FAILURE,
-  }),
-
-  loginReset: () => ({
-    type: Types.RESET,
   }),
 };
